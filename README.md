@@ -51,6 +51,28 @@ Configure Suricata:
 - Search for pcap and change that interface to your network interface (e.g. Interface: eth0)
 - Search for community-id and change false to true (e.g. Community-id: true)
 - Search for the output section and make sure eve-log is enabled. This ensures logs go to /var/log/suricata/eve.json which is the file extension that Splunk needs (e.g. Enabled: yes)
-- Update the rules which downloads the latest emerging threats open ruleset and saves them to var/lib/suricata/rules/suricata.rules (e.g. sudo suricata-update)
+- Update the rules which downloads the latest emerging threats open ruleset and saves them to var/lib/suricata/rules/suricata.rules (sudo suricata-update)
 - Check to see if the rules loaded: Sudo suricata -T -c /etc/suricata/suricata.yaml -v. It should say there were a number of rules successfully loaded
 - All the IDS alerts will go to fast.log and it will go to eve.json in JSON format
+
+Test Suricata:
+- Start the service in the background (sudo systemctl start suricata)
+- Check the status to make sure its active and running (sudo systemctl status suricata)
+- You should see "Active: active (running)". If it says "failed," it's usually because the interface name was wrong
+  
+- Open a second terminal window, tail the log in real time to see new alerts (Tail -f /var/log/suricata/eve.json)
+- In the first terminal, test the rule set with a command that will trigger a rule (curl http://testmynids.org/uid/index.html)
+- This is checking for an ID and will see a JSON log entry appear in the second terminal window
+- Cancel the command in the second terminal and view the fast.log file for the new alert (sudo cat /var/log/suricata/fast.log)
+- There should be one entry for the new alert (e.g. 11/18/2025-21:59:12.036175  [**] [1:2100498:7] GPL ATTACK_RESPONSE id check returned root [**] [Classification: Potentially Bad Traffic] [Priority: 2] {TCP} 3.170.103.6:80 -> 10.0.2.15:38770)
+- To view the JSON file in JSON format, install jq (Install jq: sudo apt install jq -y)
+- Run this command in the first window: sudo tail -f /var/log/suricata/eve.json | jq 'select(.event_type=="alert")'
+- In the second window, run the same command to trigger the alert: curl http://testmynids.org/uid/index.html
+- The output in the first terminal will show the alert in readable JSON format (Make sure suricata is running to see the alert)
+
+Writing Custom Suricata Rules:
+- Make a file in the /etc/suricata/rules directory and name the file whatever you want (sudo nano /etc/suricata/rules/local.rules)
+- Adding ICMP ping rule to alert if a device sends a ping request to you (alert icmp any any -> $HOME_NET any (msg:”ICMP Ping”; sid:1; rev:1;))
+- This will generate an alert for an ICMP protocol from any IP address and port to your device’s IP address from any port.
+
+- 
