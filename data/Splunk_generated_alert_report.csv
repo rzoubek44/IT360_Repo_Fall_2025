@@ -1,0 +1,21 @@
+Time,"Source IP","Destination IP","Alert Name",Category,Severity
+"1764192592.621862","192.168.1.184","3.170.103.6","WEB-ATTACK Directory Traversal Attempt","Web Application Attack",1
+"1764192588.071397","192.168.1.184","192.168.1.254","POLICY VIOLATION: Facebook Access","",3
+"1764192588.031699","192.168.1.184","192.168.1.254","POLICY VIOLATION: Facebook Access","",3
+"1764192582.170005","192.168.1.184","192.168.1.181","FTP connection attempt","",3
+"1764192578.719790","192.168.1.184","192.168.1.181","TELNET connection attempt","",3
+"1764192568.413615","192.168.1.184","192.168.1.181","ICMP Ping","",3
+"1764192568.413512","192.168.1.181","192.168.1.184","ICMP Ping","",3
+"1764192293.164858","192.168.1.225","23.215.15.185","ET INFO Microsoft Connection Test","Misc activity",3
+"1764192266.745288","192.168.1.184","3.170.103.54","WEB-ATTACK Directory Traversal Attempt","Web Application Attack",1
+"1764192258.051321","192.168.1.184","192.168.1.254","POLICY VIOLATION: Facebook Access","",3
+"1764192258.011530","192.168.1.184","192.168.1.254","POLICY VIOLATION: Facebook Access","",3
+"1764192249.263554","192.168.1.181","192.168.1.184","SURICATA STREAM Packet with invalid timestamp","Generic Protocol Command Decode",3
+"1764192249.170533","192.168.1.184","192.168.1.181","FTP connection attempt","",3
+"1764192240.637278","192.168.1.184","192.168.1.181","TELNET connection attempt","",3
+"1764192227.375642","192.168.1.184","192.168.1.181","ICMP Ping","",3
+"1764192227.375498","192.168.1.181","192.168.1.184","ICMP Ping","",3
+"1764192196.700191","192.168.1.254","192.168.1.181","ICMP Ping","",3
+"1764192019.952386","192.168.1.184","3.170.103.11","WEB-ATTACK Directory Traversal Attempt","Web Application Attack",1
+"1764191801.809895","192.168.1.169","192.168.1.255","ET INFO Spotify P2P Client","Not Suspicious Traffic",3
+"1764191795.431211","192.168.1.184","3.170.103.54","TEST: Raw Content Found","",3
