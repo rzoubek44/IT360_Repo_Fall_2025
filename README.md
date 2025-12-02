@@ -59,8 +59,6 @@ Test Suricata:
 - Start the service in the background (sudo systemctl start suricata)
 - Check the status to make sure its active and running (sudo systemctl status suricata)
 - You should see "Active: active (running)". If it says "failed," it's usually because the interface name was wrong
-
-  
 - Open a second terminal window, tail the log in real time to see new alerts (Tail -f /var/log/suricata/eve.json)
 - In the first terminal, test the rule set with a command that will trigger a rule (curl http://testmynids.org/uid/index.html)
 - This is checking for an ID and will see a JSON log entry appear in the second terminal window
@@ -75,5 +73,18 @@ Writing Custom Suricata Rules:
 - Make a file in the /etc/suricata/rules directory and name the file whatever you want (sudo nano /etc/suricata/rules/local.rules)
 - Adding ICMP ping rule to alert if a device sends a ping request to you (alert icmp any any -> $HOME_NET any (msg:”ICMP Ping”; sid:1; rev:1;))
 - This will generate an alert for an ICMP protocol from any IP address and port to your device’s IP address from any port.
+- Test with: ping 192.168.1.184 (target IP address) from another device in the network and view the fast.log to see the new alert (e.g. 11/25/2025-15:30:32.226145  [**] [1:1:1] ICMP Ping [**] [Classification: (null)] [Priority: 3] {ICMP} 192.168.1.181:8 -> 192.168.1.184:0)
+- Adding a telnet rule to alert if the device tries to make a telnet connection to another device (alert tcp any any -> any 23 (msg:"TELNET connection attempt"; sid:1000001; rev:1;))
+- This will alert when there is a tcp connection from any IP address and any port to any IP address to port 23 (Telnet)
+- Test with: telnet 192.168.1.181 (target IP address) to another device and view the fast.log to see the new alert (e.g. 11/25/2025-15:59:59.648754  [**] [1:1000001:1] TELNET connection attempt [**] [Classification: (null)] [Priority: 3] {TCP} 192.168.1.184:37882 -> 192.168.1.181:23)
+- Adding a FTP rule to alert if the device tries to make a FTP connection to another device (alert tcp any any -> any 21 (msg:"FTP connection attempt"; sid:1000004; rev:1;))
+- This will alert when there is a tcp connection from any IP address and any port to any IP address to port 21 (FTP)
+- Test with: ftp 192.168.1.181 (target IP address) to another device and view the fast.log to see the new alert (e.g. 11/26/2025-11:42:30.503167  [**] [1:1000004:1] FTP connection attempt [**] [Classification: (null)] [Priority: 3] {TCP} 192.168.1.184:38032 -> 192.168.1.181:21)
+- Adding a Web Application Directory Traversal alert if the device queries a directory traversal on a website link (alert http any any -> any 80 (msg:"WEB-ATTACK Directory Traversal Attempt"; content:"../"; http_raw_uri; classtype:web-application-attack; zsid:1000005; rev:2;))
+- This will alert when there is an attempt to directory traversal on a website link on port 80 from any IP and port to any IP and port 80 (HTTP)
+- Test with: Test: curl -v --path-as-is "http://testmynids.org/../../etc/passwd" on the device and view the fast.log to see the new alert (e.g. 11/26/2025-16:20:19.952386  [**] [1:1000005:2] WEB-ATTACK Directory Traversal Attempt [**] [Classification: Web Application Attack] [Priority: 1] {TCP} 192.168.1.184:50184 -> 3.170.103.11:80)
+- Adding a DNS rule to alert if the device tries to visit facebook (alert dns any any -> any any (msg:"POLICY VIOLATION: Facebook Access"; dns.query; content:"facebook.com"; sid:1000006; rev:1;))
+- This will alert when someone tries to connect to facebook. It can be used as a social media policy to see who is going on social media sites. You can set it to any of them like tik tok or instagram.
+- Test with: nslookup facebook.com on the device and view the fast.log to see the new alert (e.g. 11/26/2025-11:55:24.061918  [**] [1:1000006:1] POLICY VIOLATION: Facebook Access [**] [Classification: (null)] [Priority: 3] {UDP} 192.168.1.184:59897 -> 192.168.1.254:53)
 
-- 
+
