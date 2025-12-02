@@ -41,18 +41,16 @@ Python Script Features:
 To set up the project, you need to install and figure Suricata and Splunk. Also, download and run the python script with the CSV file as input to generate the report.
 
 Installation of Suricata:
-
-First update the Kali VM: sudo apt update
-
-Install Suricata: sudo apt install suricata -y
+- First update the Kali VM: sudo apt update
+- Install Suricata: sudo apt install suricata -y
 
 Configure Suricata:
-Open the suricata.yaml file with your choice of text editor: sudo nano /etc/suricata/suricata.yaml
-Under address-groups, add your IP address subnet and CIDR number to HOME_NET (e.g. HOME_NET: “[10.0.2.0/24]”)
-Search for af-packet and change the interface to your network interface (e.g. Interface: eth0)
-Search for pcap and change that interface to your network interface (e.g. Interface: eth0)
-Search for community-id and change false to true (e.g. Community-id: true)
-Search for the output section and make sure eve-log is enabled. This ensures logs go to /var/log/suricata/eve.json which is the file extension that Splunk needs (e.g. Enabled: yes)
-Update the rules which downloads the latest emerging threats open ruleset and saves them to var/lib/suricata/rules/suricata.rules (e.g. sudo suricata-update)
-Check to see if the rules loaded: Sudo suricata -T -c /etc/suricata/suricata.yaml -v. It should say there were a number of rules successfully loaded
-All the IDS alerts will go to fast.log and it will go to eve.json in JSON format
+- Open the suricata.yaml file with your choice of text editor: sudo nano /etc/suricata/suricata.yaml
+- Under address-groups, add your IP address subnet and CIDR number to HOME_NET (e.g. HOME_NET: “[10.0.2.0/24]”)
+- Search for af-packet and change the interface to your network interface (e.g. Interface: eth0)
+- Search for pcap and change that interface to your network interface (e.g. Interface: eth0)
+- Search for community-id and change false to true (e.g. Community-id: true)
+- Search for the output section and make sure eve-log is enabled. This ensures logs go to /var/log/suricata/eve.json which is the file extension that Splunk needs (e.g. Enabled: yes)
+- Update the rules which downloads the latest emerging threats open ruleset and saves them to var/lib/suricata/rules/suricata.rules (e.g. sudo suricata-update)
+- Check to see if the rules loaded: Sudo suricata -T -c /etc/suricata/suricata.yaml -v. It should say there were a number of rules successfully loaded
+- All the IDS alerts will go to fast.log and it will go to eve.json in JSON format
