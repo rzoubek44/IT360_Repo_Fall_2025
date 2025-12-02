@@ -71,6 +71,7 @@ Test Suricata:
 
 Writing Custom Suricata Rules:
 - Make a file in the /etc/suricata/rules directory and name the file whatever you want (sudo nano /etc/suricata/rules/local.rules)
+- Add the full path of the new file to suricata.yaml file 
 - Adding ICMP ping rule to alert if a device sends a ping request to you (alert icmp any any -> $HOME_NET any (msg:”ICMP Ping”; sid:1; rev:1;))
 - This will generate an alert for an ICMP protocol from any IP address and port to your device’s IP address from any port.
 - Test with: ping 192.168.1.184 (target IP address) from another device in the network and view the fast.log to see the new alert (e.g. 11/25/2025-15:30:32.226145  [**] [1:1:1] ICMP Ping [**] [Classification: (null)] [Priority: 3] {ICMP} 192.168.1.181:8 -> 192.168.1.184:0)
@@ -100,3 +101,31 @@ Installation and configuration of Splunk:
 - Follow the prompts to enter username and password
 - After that, open the link at the end of the output for the splunk web interface (http://kali:8000 or http://localhost:8000)
 - Enter credentials for the admin account to get into the home page
+
+Pointing the log file from Suricata to Splunk
+- On the Splunk web browser, go to the top bar and click “Settings”, then “Data inputs”
+- Add a new input by clicking on “files and directories” under “local inputs”
+- Click on “new local file and directory”
+- In the “file or directory” field, hit “browse” to enter the path of the suricata log file (/var/log/suricata/eve.json, Make sure “continuously monitor” option is selected)
+- In “set source type”, click on the drop down menu “source type” and type “json” (Select _json which will work for our eve.json files)
+- In “Input settings” for the “index” drop down menu, select main (In the “host method”, select “constant value”) (In the “Host Field”, enter a name like kali-vm because this will tag every event and you know exactly which machine sent it)
+- Click “review”, “submit”, “Start Searching”
+
+Using Splunk:
+- Click on the “app” dropdown menu and select “Search and reporting” app
+- In the search bar, enter this command: index="main" sourcetype="_json" to verify data is flowing
+- To the right of the search bar, change “Last 24 hours” to “Real-time” > “30 second window’
+- This will test for data right now and get to watch attacks happen live
+- Then click the green magnifying glass
+- If there is nothing, start the suricata service: sudo systemctl start suricata
+- Then generate traffic: curl http://testmynids.org/uid/index.html
+- Then there will be alerts popping up
+- Once the search runs, look at the left sidebar labeled “interesting fields”
+- Since we used “sourcetype=”_json”, Splunk automatically scans the suricata log and pulled out the keys
+- Scroll down on the side bar and look for fields like “src_ip”, “dest_ip”, or “alert.signature or alert.signature_id”
+
+Splunk Reporting:
+- Once data flow in confirmed, put this SPL script into the search bar and click the magnifying glass again (index="main" sourcetype="_json" event_type="alert"
+| table _time, src_ip, dest_ip, alert.signature, alert.category, alert.severity
+| rename _time as "Time", src_ip as "Source IP", dest_ip as "Destination IP", alert.signature as "Alert Name", alert.category as "Category", alert.severity as "Severity"
+| sort - "Time")
