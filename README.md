@@ -59,6 +59,7 @@ Test Suricata:
 - Start the service in the background (sudo systemctl start suricata)
 - Check the status to make sure its active and running (sudo systemctl status suricata)
 - You should see "Active: active (running)". If it says "failed," it's usually because the interface name was wrong
+
   
 - Open a second terminal window, tail the log in real time to see new alerts (Tail -f /var/log/suricata/eve.json)
 - In the first terminal, test the rule set with a command that will trigger a rule (curl http://testmynids.org/uid/index.html)
