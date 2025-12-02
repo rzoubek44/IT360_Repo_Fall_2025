@@ -1,0 +1,10 @@
+Virtual Machines
+- Kali Linux VM
+- Metasploitable2 VM 
+- Both need to be on the same network
+Suricata
+Splunk Enterprise
+- Free Trial 
+Python pip packages for the script
+- Imports that requires installation: pandas and fpdf
+- Python 3
