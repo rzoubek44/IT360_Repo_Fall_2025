@@ -125,7 +125,15 @@ Using Splunk:
 - Scroll down on the side bar and look for fields like “src_ip”, “dest_ip”, or “alert.signature or alert.signature_id”
 
 Splunk Reporting:
-- Once data flow in confirmed, put this SPL script into the search bar and click the magnifying glass again (index="main" sourcetype="_json" event_type="alert"
+- Once data flow in confirmed, put this SPL script into the search bar and click the magnifying glass again
+
+(index="main" sourcetype="_json" event_type="alert"
 | table _time, src_ip, dest_ip, alert.signature, alert.category, alert.severity
 | rename _time as "Time", src_ip as "Source IP", dest_ip as "Destination IP", alert.signature as "Alert Name", alert.category as "Category", alert.severity as "Severity"
 | sort - "Time")
+
+- Start the suricata service again, run the same curl command to generate traffic that will set off an alert, then stop suricata
+- Once the table looks how you want it, click on “save as”, select “report” from dropdown, give it a title name and an optional description, then click “save”
+- This is now a permanent report that saves the script
+- Now you can review the report by going to the “reports” tab on the top bar, find the newly generated report and click on it, click on it to run the script and this will generate a table automatically of alerts
+- To export and view the report as a table in PDF or CSV, click on the export button 
