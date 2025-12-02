@@ -1,0 +1,4 @@
+index="main" sourcetype="_json" event_type="alert"
+| table _time, src_ip, dest_ip, alert.signature, alert.category, alert.severity
+| rename _time as "Time", src_ip as "Source IP", dest_ip as "Destination IP", alert.signature as "Alert Name", alert.category as "Category", alert.severity as "Severity"
+| sort - "Time"

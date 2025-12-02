@@ -1,0 +1,5 @@
+alert icmp any any -> $HOME_NET any (msg:"ICMP Ping"; sid:1; rev:1;)
+alert tcp any any -> any 23 (msg:"TELNET connection attempt"; sid:1000001; rev:1;)
+alert tcp any any -> any 21 (msg:"FTP connection attempt"; sid:1000004; rev:1;)
+alert http any any -> any 80 (msg:"WEB-ATTACK Directory Traversal Attempt"; content:"../"; http_raw_uri; classtype:web-application-attack; sid:1000005; rev:2;)
+alert dns any any -> any any (msg:"POLICY VIOLATION: Facebook Access"; dns.query; content:"facebook.com"; sid:1000006; rev:1;)
