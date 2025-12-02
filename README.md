@@ -102,7 +102,7 @@ Installation and configuration of Splunk:
 - After that, open the link at the end of the output for the splunk web interface (http://kali:8000 or http://localhost:8000)
 - Enter credentials for the admin account to get into the home page
 
-Pointing the log file from Suricata to Splunk
+Pointing the log file from Suricata to Splunk:
 - On the Splunk web browser, go to the top bar and click “Settings”, then “Data inputs”
 - Add a new input by clicking on “files and directories” under “local inputs”
 - Click on “new local file and directory”
@@ -136,4 +136,28 @@ Splunk Reporting:
 - Once the table looks how you want it, click on “save as”, select “report” from dropdown, give it a title name and an optional description, then click “save”
 - This is now a permanent report that saves the script
 - Now you can review the report by going to the “reports” tab on the top bar, find the newly generated report and click on it, click on it to run the script and this will generate a table automatically of alerts
-- To export and view the report as a table in PDF or CSV, click on the export button 
+- To export and view the report as a table in PDF or CSV, click on the export button
+
+Get a report on the custom rules:
+- To view the custom rules and alerts, start the suricata service and run these commands
+- ping 192.168.1.184 (target IP address)
+- telnet 192.168.1.181 (target IP address)
+- ftp 192.168.1.181 (target IP address)
+- nslookup facebook.com
+- curl -v --path-as-is "http://testmynids.org/../../etc/passwd"
+- View the fast.log file to confirm all these events where alerted
+- Start up splunk and go to "Search and Reporting" app
+- Add the SPL script from above
+- Change “Last 24 hours” to “Last 15 minutes"
+- This will look at the log file for new alerts in the last 15 minutes
+- Click the magnifying glass to see the table view of the alerts
+- Export to view the report as a CSV file so it is ready to be ran by the script
+
+Report Script:
+- Get the script from the src document names, "Security_Report_Generation.py"
+- Install fpdf and pandas package: pip install pandas fpdf --break-system-packages
+- Make the script executable: chmod +x Security_Report_Generation.py
+- Run the script: python3 Security_Report_Generation.py (make sure the Splunk generated report is in the same directory as the script)
+- Must enter a .csv file as input, so save the report as a CSV on Splunk
+- Choose either a .csv file or .pdf file as output
+- Will get a detailed report as output, ranking the alerts and provides details and remediation recommendations 
