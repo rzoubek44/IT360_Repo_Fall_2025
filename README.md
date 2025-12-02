@@ -38,10 +38,12 @@ Python Script Features:
 - Color codes the alerts based on threat level (Red for critical, Black for Low)
 
 # Instructions
-To set up the project, you need to install and figure Suricata and Splunk. Also, download and run the python script with the CSV file as input to generate the report
+To set up the project, you need to install and figure Suricata and Splunk. Also, download and run the python script with the CSV file as input to generate the report.
 
 Installation of Suricata:
+
 First update the Kali VM: sudo apt update
+
 Install Suricata: sudo apt install suricata -y
 
 Configure Suricata:
