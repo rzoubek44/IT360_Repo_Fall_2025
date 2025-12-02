@@ -87,4 +87,16 @@ Writing Custom Suricata Rules:
 - This will alert when someone tries to connect to facebook. It can be used as a social media policy to see who is going on social media sites. You can set it to any of them like tik tok or instagram.
 - Test with: nslookup facebook.com on the device and view the fast.log to see the new alert (e.g. 11/26/2025-11:55:24.061918  [**] [1:1000006:1] POLICY VIOLATION: Facebook Access [**] [Classification: (null)] [Priority: 3] {UDP} 192.168.1.184:59897 -> 192.168.1.254:53)
 
+Here is a link for documentation page for writing custom rule sets for Suricata: https://docs.suricata.io/en/latest/rules/intro.html
 
+Installation and configuration of Splunk:
+- Go to the Splunk website and create an account for the free trial 60 day version for Splunk enterprise
+- Go to the Linux tab and download the .deb file (Debian/Ubuntu package)
+- Go to the Downloads folder in the terminal and use the ls command to check for the filename and version (e.g. splunk-10.0.2-e2d18b4767e9-linux-amd64.deb)
+- Install the package: sudo dpkg -i splunk-10.0.2-e2d18b4767e9-linux-amd64.deb
+- Start splunk and accept the license: sudo /opt/splunk/bin/splunk start --accept-license
+- Create admin account
+- The terminal will ask you to create a username and password for the admin account
+- Follow the prompts to enter username and password
+- After that, open the link at the end of the output for the splunk web interface (http://kali:8000 or http://localhost:8000)
+- Enter credentials for the admin account to get into the home page
